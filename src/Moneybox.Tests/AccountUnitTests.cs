@@ -1,6 +1,6 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moneybox.App;
+using System;
 
 namespace Moneybox.Tests
 {

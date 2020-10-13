@@ -16,6 +16,10 @@ namespace Moneybox.App
 
         public decimal PaidIn { get; set; }
 
+        public bool FundsLow { get; set; }
+
+        public bool ApproachingPayInLimit { get; set; }
+
         public void TransferOut(decimal transferAmount)
         {
             var newBalance = Balance - transferAmount;
@@ -27,8 +31,7 @@ namespace Moneybox.App
 
             if (newBalance < 500m)
             {
-                // todo: consider whether to make Account dependent on notificationService?
-                // this.notificationService.NotifyFundsLow(User.Email);
+                FundsLow = true;
             }
 
             Balance = newBalance;
@@ -45,8 +48,7 @@ namespace Moneybox.App
 
             if (PayInLimit - paidIn < 500m)
             {
-                // consider depedency
-                // this.notificationService.NotifyApproachingPayInLimit(toAccount.User.Email);
+                ApproachingPayInLimit = true;
             }
 
             Balance = Balance + transferAmount;

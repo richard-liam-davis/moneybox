@@ -1,6 +1,6 @@
-﻿using System;
-using Moneybox.App.DataAccess;
+﻿using Moneybox.App.DataAccess;
 using Moneybox.App.Domain.Services;
+using System;
 
 namespace Moneybox.App.Features
 {
@@ -23,10 +23,26 @@ namespace Moneybox.App.Features
             fromAccount.TransferOut(transferAmount);
             toAccount.TransferIn(transferAmount);
 
-            this.accountRepository.Update(fromAccount);
-            this.accountRepository.Update(toAccount);
+            try
+            {
+                this.accountRepository.Update(fromAccount);
+                this.accountRepository.Update(toAccount);
+            }
+            catch(Exception ex)
+            {
+                // TODO: Some form of rollback here
+            }
 
-            // only notify on success
+            // send notifications only if the updates were successful
+            if (fromAccount.FundsLow)
+            {
+                this.notificationService.NotifyFundsLow(fromAccount.User.Email);
+            }
+
+            if (toAccount.ApproachingPayInLimit)
+            {
+                this.notificationService.NotifyApproachingPayInLimit(toAccount.User.Email);
+            }
         }
     }
 }
