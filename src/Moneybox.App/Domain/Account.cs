@@ -31,5 +31,20 @@ namespace Moneybox.App
                 // this.notificationService.NotifyFundsLow(User.Email);
             }
         }
+
+        public void TransferIn(decimal transferAmount)
+        {
+            var paidIn = PaidIn + transferAmount;
+            if (paidIn > PayInLimit)
+            {
+                throw new InvalidOperationException("Account pay in limit reached");
+            }
+
+            if (PayInLimit - paidIn < 500m)
+            {
+                // consider depedency
+                // this.notificationService.NotifyApproachingPayInLimit(toAccount.User.Email);
+            }
+        }
     }
 }

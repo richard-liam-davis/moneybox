@@ -20,17 +20,6 @@ namespace Moneybox.App.Features
             var fromAccount = this.accountRepository.GetAccountById(fromAccountId);
             var toAccount = this.accountRepository.GetAccountById(toAccountId);
 
-            var paidIn = toAccount.PaidIn + transferAmount;
-            if (paidIn > Account.PayInLimit)
-            {
-                throw new InvalidOperationException("Account pay in limit reached");
-            }
-
-            if (Account.PayInLimit - paidIn < 500m)
-            {
-                this.notificationService.NotifyApproachingPayInLimit(toAccount.User.Email);
-            }
-
             fromAccount.Balance = fromAccount.Balance - transferAmount;
             fromAccount.Withdrawn = fromAccount.Withdrawn - transferAmount;
 
