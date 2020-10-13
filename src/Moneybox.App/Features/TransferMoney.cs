@@ -1,6 +1,6 @@
-﻿using Moneybox.App.DataAccess;
+﻿using System;
+using Moneybox.App.DataAccess;
 using Moneybox.App.Domain.Services;
-using System;
 
 namespace Moneybox.App.Features
 {
@@ -20,14 +20,13 @@ namespace Moneybox.App.Features
             var fromAccount = this.accountRepository.GetAccountById(fromAccountId);
             var toAccount = this.accountRepository.GetAccountById(toAccountId);
 
-            fromAccount.Balance = fromAccount.Balance - transferAmount;
-            fromAccount.Withdrawn = fromAccount.Withdrawn - transferAmount;
-
-            toAccount.Balance = toAccount.Balance + transferAmount;
-            toAccount.PaidIn = toAccount.PaidIn + transferAmount;
+            fromAccount.TransferOut(transferAmount);
+            toAccount.TransferIn(transferAmount);
 
             this.accountRepository.Update(fromAccount);
             this.accountRepository.Update(toAccount);
+
+            // only notify on success
         }
     }
 }

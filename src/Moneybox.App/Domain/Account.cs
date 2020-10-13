@@ -30,6 +30,9 @@ namespace Moneybox.App
                 // todo: consider whether to make Account dependent on notificationService?
                 // this.notificationService.NotifyFundsLow(User.Email);
             }
+
+            Balance = newBalance;
+            Withdrawn = Withdrawn - transferAmount;
         }
 
         public void TransferIn(decimal transferAmount)
@@ -45,6 +48,9 @@ namespace Moneybox.App
                 // consider depedency
                 // this.notificationService.NotifyApproachingPayInLimit(toAccount.User.Email);
             }
+
+            Balance = Balance + transferAmount;
+            PaidIn = PaidIn + transferAmount;
         }
     }
 }
