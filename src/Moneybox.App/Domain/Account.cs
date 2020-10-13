@@ -15,5 +15,21 @@ namespace Moneybox.App
         public decimal Withdrawn { get; set; }
 
         public decimal PaidIn { get; set; }
+
+        public void TransferOut(decimal transferAmount)
+        {
+            var newBalance = Balance - transferAmount;
+            
+            if (newBalance < 0m)
+            {
+                throw new InvalidOperationException("Insufficient funds to make transfer");
+            }
+
+            if (newBalance < 500m)
+            {
+                // todo: consider whether to make Account dependent on notificationService?
+                // this.notificationService.NotifyFundsLow(User.Email);
+            }
+        }
     }
 }
