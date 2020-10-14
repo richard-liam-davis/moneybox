@@ -23,16 +23,7 @@ namespace Moneybox.App.Features
 
             this.accountRepository.Update(fromAccount);
 
-            try
-            {
-                this.accountRepository.Update(fromAccount);
-            }
-            catch (Exception ex)
-            {
-                // TODO: Some form of rollback here
-            }
-
-            // send notifications only if the updates were successful
+            // send notification only if the updates were successful
             if (fromAccount.FundsLow)
             {
                 this.notificationService.NotifyFundsLow(fromAccount.User.Email);

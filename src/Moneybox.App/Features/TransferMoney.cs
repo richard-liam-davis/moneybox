@@ -23,15 +23,9 @@ namespace Moneybox.App.Features
             fromAccount.TransferOut(transferAmount);
             toAccount.TransferIn(transferAmount);
 
-            try
-            {
-                this.accountRepository.Update(fromAccount);
-                this.accountRepository.Update(toAccount);
-            }
-            catch(Exception ex)
-            {
-                // TODO: Some form of rollback here
-            }
+            // TODO: Implement a transaction to ensure both accounts are updated successfully
+            this.accountRepository.Update(fromAccount);
+            this.accountRepository.Update(toAccount);
 
             // send notifications only if the updates were successful
             if (fromAccount.FundsLow)
